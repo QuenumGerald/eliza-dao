@@ -1,5 +1,7 @@
 node_modules
 .env
+.env.*
+!.env.example
 
 # Hardhat files
 /cache
@@ -15,3 +17,19 @@ node_modules
 
 # Hardhat Ignition default folder for deployments against a local node
 ignition/deployments/chain-31337
+
+# Development files
+.DS_Store
+.vscode/
+.idea/
+*.log
+*.debug
+debug/
+dist/
+build/
+
+# Deployment and sensitive data
+deployed-addresses.json
+private/
+secrets/
+keys/

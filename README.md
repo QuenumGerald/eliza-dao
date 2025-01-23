@@ -1,6 +1,18 @@
 # ElizaDAO
 
+⚠️ **IMPORTANT: This is a private project, not open source. All rights reserved.** ⚠️
+
 ElizaDAO is an autonomous AI agent that manages a Decentralized Autonomous Organization (DAO) on Arbitrum. Built with ElizaOS, it can analyze the DAO's state, make governance proposals, and automatically distribute annual grants.
+
+## Current Status
+
+This project is under active development. Upcoming implementations include:
+- Advanced decision-making algorithms for treasury management
+- Additional governance strategies
+- Enhanced community interaction features
+- Integration with other DeFi protocols
+- Custom voting mechanisms
+- Extended plugin system
 
 ## Features
 
@@ -28,10 +40,11 @@ ElizaDAO is an autonomous AI agent that manages a Decentralized Autonomous Organ
 - Node.js v16+
 - Hardhat
 - Arbitrum network access
+- Authorized access to the repository
 
 ### Installation
 
-1. Clone the repository
+1. Clone the repository (requires authorization)
 ```bash
 git clone https://github.com/yourusername/eliza-dao.git
 cd eliza-dao
@@ -90,23 +103,26 @@ npx hardhat node
 npx hardhat run scripts/deploy.js --network localhost
 ```
 
-## Contributing
+## Access and Usage Restrictions
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+This project is proprietary and access is restricted. To use or contribute to this project:
+1. You must be explicitly authorized
+2. A Non-Disclosure Agreement (NDA) may be required
+3. All modifications must be approved
+4. No public distribution or sharing of the code is allowed
 
 ## Security
 
 - All proposals require community approval
 - Timelock delay for execution
 - Public and transparent decision making
+- Regular security audits
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Copyright 2025 ElizaDAO. All rights reserved.
+
+This is a private project. No license is granted for its use, modification, or distribution without explicit written permission from the project owners.
 
 ## Acknowledgments
 
