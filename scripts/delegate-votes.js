@@ -1,23 +1,21 @@
 const hre = require("hardhat");
+const { TOKEN_ADDRESS } = require("./addresses");
 
 async function main() {
     const [deployer] = await ethers.getSigners();
-    console.log("Delegating votes for account:", deployer.address);
+    console.log("Delegating votes with account:", deployer.address);
 
-    // Adresse du token sur arbitrumSepolia
-    const TOKEN_ADDRESS = "0x98eDc5E454E309614Fe6C6df2095B8EeDb829181";
-    
-    // Récupérer l'instance du token
+    // Récupérer l'instance du Token
     const token = await ethers.getContractAt("ElizaToken", TOKEN_ADDRESS);
 
-    // Déléguer les votes à soi-même
+    // Déléguer les votes au déployeur
     console.log("Delegating votes to self...");
     const tx = await token.delegate(deployer.address);
     await tx.wait();
-    
-    // Vérifier le nouveau pouvoir de vote
+
+    // Vérifier les votes délégués
     const votes = await token.getVotes(deployer.address);
-    console.log("New voting power:", ethers.formatEther(votes), "votes");
+    console.log("Current voting power:", ethers.formatEther(votes), "votes");
 }
 
 main().catch((error) => {

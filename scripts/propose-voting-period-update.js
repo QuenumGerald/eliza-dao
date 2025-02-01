@@ -5,7 +5,7 @@ async function main() {
     console.log("Creating proposal with account:", deployer.address);
 
     // Adresse du Governor sur arbitrumSepolia
-    const GOVERNOR_ADDRESS = "0xC0D4835806942cDfEcBb01173b6eE9f52a48EB83";
+    const GOVERNOR_ADDRESS = "0x9C2a0562b395E09b81265C568B55D164230a0939";
     
     // Récupérer l'instance du Governor
     const governor = await ethers.getContractAt("ElizaGovernor", GOVERNOR_ADDRESS);

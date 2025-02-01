@@ -1,4 +1,5 @@
 const hre = require("hardhat");
+const { GOVERNOR_ADDRESS } = require("./addresses");
 
 async function main() {
     const [deployer] = await ethers.getSigners();
@@ -7,9 +8,6 @@ async function main() {
     // Utiliser l'adresse du déployeur
     const ELIZA_ADDRESS = deployer.address;
     
-    // Adresse du contrat Governor sur arbitrumSepolia
-    const GOVERNOR_ADDRESS = "0xC0D4835806942cDfEcBb01173b6eE9f52a48EB83";
-
     // Récupérer l'instance du Governor
     const governor = await ethers.getContractAt("ElizaGovernor", GOVERNOR_ADDRESS);
 

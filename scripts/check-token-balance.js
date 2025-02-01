@@ -5,7 +5,7 @@ async function main() {
     console.log("Checking balance for account:", deployer.address);
 
     // Adresse du token sur arbitrumSepolia
-    const TOKEN_ADDRESS = "0x98eDc5E454E309614Fe6C6df2095B8EeDb829181"; // Remplacer par la bonne adresse
+    const TOKEN_ADDRESS = "0x2a298Cd0c40C4E71BD6308151AA3437A0E8EC648"; // Remplacer par la bonne adresse
     
     // Récupérer l'instance du token
     const token = await ethers.getContractAt("ElizaToken", TOKEN_ADDRESS);

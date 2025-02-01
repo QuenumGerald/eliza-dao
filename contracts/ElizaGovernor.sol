@@ -7,6 +7,7 @@ import "@openzeppelin/contracts/governance/extensions/GovernorCountingSimple.sol
 import "@openzeppelin/contracts/governance/extensions/GovernorVotes.sol";
 import "@openzeppelin/contracts/governance/extensions/GovernorVotesQuorumFraction.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
+import "@openzeppelin/contracts/governance/utils/IVotes.sol";
 
 contract ElizaGovernor is
     Governor,
@@ -24,7 +25,7 @@ contract ElizaGovernor is
         Governor("ElizaGovernor")
         GovernorSettings(
             1, // Voting delay: 1 block
-            45818, // Voting period: ~1 week
+            30, // Voting period: 30 blocks
             1 // Proposal threshold
         )
         GovernorVotes(_token)
@@ -64,22 +65,12 @@ contract ElizaGovernor is
         return super.proposalThreshold();
     }
 
-    function state(uint256 proposalId)
-        public
-        view
-        virtual
-        override
-        returns (ProposalState)
-    {
-        return super.state(proposalId);
-    }
-
     function propose(
         address[] memory targets,
         uint256[] memory values,
         bytes[] memory calldatas,
         string memory description
-    ) public virtual override returns (uint256) {
+    ) public override(Governor) returns (uint256) {
         return super.propose(targets, values, calldatas, description);
     }
 

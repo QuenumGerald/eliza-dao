@@ -26,7 +26,11 @@ module.exports = {
     arbitrumSepolia: {
       url: "https://sepolia-rollup.arbitrum.io/rpc",
       chainId: 421614,
-      accounts: [PRIVATE_KEY]
+      accounts: [PRIVATE_KEY],
+      timeout: 120000,
+      httpHeaders: {
+        'User-Agent': 'Mozilla/5.0'
+      }
     }
   },
   etherscan: {
