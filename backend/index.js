@@ -43,7 +43,7 @@ async function main() {
     // Vérifier l'état de la proposition toutes les minutes
     let checkInterval = setInterval(async () => {
         const currentProposalId = getCurrentProposalId();
-        
+
         // Si l'ID a changé, mettre à jour notre référence
         if (currentProposalId !== lastCheckedProposalId) {
             console.log("\nNouvelle proposition détectée !");
@@ -55,8 +55,8 @@ async function main() {
         console.log("\n=== Vérification de la proposition ===");
         console.log("ID:", currentProposalId);
         const result = await handleProposal('execute');
-        
-        switch(result.status) {
+
+        switch (result.status) {
             case 'executed':
                 console.log("\n✅ Proposition exécutée avec succès !");
                 if (getCurrentProposalId() === lastCheckedProposalId) {
@@ -64,7 +64,7 @@ async function main() {
                     handleProposal('create');
                 }
                 break;
-            
+
             case 'failed':
                 console.log("\n❌ La proposition a échoué ou est expirée.");
                 if (getCurrentProposalId() === lastCheckedProposalId) {
@@ -73,16 +73,16 @@ async function main() {
                 }
                 clearInterval(checkInterval);
                 break;
-            
+
             case 'pending':
                 console.log("\n⏳ La proposition est en cours...");
                 break;
-            
+
             case 'error':
                 console.log("\n⚠️ Erreur lors de l'exécution de la proposition");
                 break;
         }
-        
+
         console.log("\n=== Fin de la vérification ===\n");
     }, 60 * 1000); // 1 minute
 

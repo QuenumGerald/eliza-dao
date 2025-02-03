@@ -73,7 +73,7 @@ async function checkAndExecuteProposal(proposalId, description) {
     console.log("Blocks remaining:", Number(deadline) - currentBlock);
 
     // Vérifier l'état et agir en conséquence
-    switch(Number(state)) {
+    switch (Number(state)) {
         case 4: // Succeeded
             console.log("\nLa proposition a réussi ! Exécution...");
             try {
@@ -138,13 +138,13 @@ async function createAndMonitorProposal() {
     // Lire et incrémenter le compteur de propositions
     const counterFile = path.join(__dirname, 'proposal-counter.json');
     let counter = { lastId: 0 };
-    
+
     try {
         counter = JSON.parse(fs.readFileSync(counterFile, 'utf8'));
     } catch (error) {
         console.log("Counter file not found, starting from 0");
     }
-    
+
     counter.lastId++;
     fs.writeFileSync(counterFile, JSON.stringify(counter, null, 2));
 
@@ -153,7 +153,7 @@ async function createAndMonitorProposal() {
     console.log("Description:", description);
 
     try {
-        const tx = await governor.propose(
+        const tx = await governor.proposeByEliza(
             [TOKEN_ADDRESS],
             [0],
             [token.interface.encodeFunctionData("transfer", [
