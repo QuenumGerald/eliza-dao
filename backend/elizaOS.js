@@ -5,13 +5,20 @@ const { handleProposal } = require('../scripts/eliza-governance');
 
 class ElizaOS {
     constructor(providerUrl) {
-        this.provider = new ethers.JsonRpcProvider(providerUrl);
+        this.provider = new ethers.JsonRpcProvider(process.env.RPC_URL || providerUrl);
         this.governorContract = new ethers.Contract(
             GOVERNOR_ADDRESS,
             [
                 "function proposeByEliza(address[] memory targets, uint256[] memory values, bytes[] memory calldatas, string memory description) external returns (uint256)",
                 "function state(uint256 proposalId) public view returns (uint8)",
                 "function execute(address[] memory targets, uint256[] memory values, bytes[] memory calldatas, bytes32 descriptionHash) external payable returns (uint256)",
+                "function ELIZA_ROLE() external view returns (bytes32)",
+                "function hasRole(bytes32 role, address account) external view returns (bool)",
+                "function proposalThreshold() external view returns (uint256)",
+                "function proposalSnapshot(uint256 proposalId) external view returns (uint256)",
+                "function proposalDeadline(uint256 proposalId) external view returns (uint256)",
+                "function proposalVotes(uint256 proposalId) external view returns (uint256 againstVotes, uint256 forVotes, uint256 abstainVotes)",
+                "function hashProposal(address[] memory targets, uint256[] memory values, bytes[] memory calldatas, bytes32 descriptionHash) external pure returns (uint256)",
                 "event ProposalCreated(uint256 proposalId, address proposer, address[] targets, uint256[] values, string[] signatures, bytes[] calldatas, uint256 startBlock, uint256 endBlock, string description)"
             ],
             this.provider

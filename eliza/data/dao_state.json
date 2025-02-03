@@ -1,41 +1,13 @@
 {
-  "name": "ElizaDAO",
-  "description": "A DAO for managing Eliza's autonomous operations and governance",
-  "members": [
-    {
-      "id": "member-1",
-      "address": "0x1234567890123456789012345678901234567890",
-      "votingPower": 1,
-      "joinedAt": "2024-02-14T10:00:00Z"
-    }
-  ],
-  "proposals": [
-    {
-      "id": "proposal-1",
-      "title": "Proposition #4: Nouveau partenariat DeFi",
-      "description": "Proposition de partenariat avec un protocole DeFi pour améliorer la gestion des actifs du DAO",
-      "proposer": "member-1",
-      "status": "active",
-      "votes": [
-        {
-          "voter": "member-1",
-          "choice": true,
-          "votingPower": 1,
-          "timestamp": "2024-02-14T12:00:00Z"
-        }
-      ],
-      "createdAt": "2024-02-14T10:00:00Z",
-      "expiresAt": "2024-02-21T10:00:00Z"
-    }
-  ],
-  "treasury": {
-    "balance": 0,
-    "transactions": []
+  "proposal_id": "51035382733786279766990888079357823792229024456643980175865338345991097499962",
+  "description": "Proposition #48 - Transfert de 50.0 tokens à 0xEc76081eE119656e4814E4EF3B707F59412A2Fb9",
+  "status": "Succeeded",
+  "deadline": "7632720",
+  "threshold": "0.000000000000000001",
+  "voting_results": {
+    "for": "997550.0",
+    "against": "0.0",
+    "abstain": "0.0"
   },
-  "settings": {
-    "votingPeriod": 604800,
-    "quorum": 51,
-    "minimumVotingPower": 1,
-    "proposalThreshold": 1
-  }
+  "updated_at": "2025-02-03T17:46:23.380Z"
 }

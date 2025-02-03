@@ -8,36 +8,59 @@ const DAO_STATE_PATH = path.join(__dirname, '../eliza/data/dao_state.json');
 const UPDATE_INTERVAL = 30000; // 30 secondes
 
 // Connexion à Arbitrum
-const provider = new ethers.JsonRpcProvider(process.env.ARBITRUM_RPC_URL);
+const provider = new ethers.JsonRpcProvider(process.env.RPC_URL);
 const daoContract = new ethers.Contract(
     process.env.GOVERNOR_ADDRESS,
     [
-        "function getLatestProposal() view returns (string, string, uint256)",
-        "function getVotingResults() view returns (uint256, uint256, uint256)",
-        "function getTransactionCount() view returns (uint256)"
+        "function state(uint256 proposalId) public view returns (uint8)",
+        "function proposalVotes(uint256 proposalId) external view returns (uint256 againstVotes, uint256 forVotes, uint256 abstainVotes)",
+        "function proposalDeadline(uint256 proposalId) external view returns (uint256)",
+        "function proposalSnapshot(uint256 proposalId) external view returns (uint256)",
+        "function proposalThreshold() external view returns (uint256)"
     ],
     provider
 );
 
 async function getCurrentDaoState() {
     try {
-        // Lire l'état actuel de la DAO depuis la blockchain
-        const [proposalName, status, voteCount] = await daoContract.getLatestProposal();
-        const [yesVotes, noVotes, abstainVotes] = await daoContract.getVotingResults();
-        const txCount = await daoContract.getTransactionCount();
+        // Lire le fichier current-proposal.json pour obtenir l'ID de la dernière proposition
+        const proposalInfo = JSON.parse(
+            await fs.readFile(path.join(__dirname, 'current-proposal.json'), 'utf-8')
+        );
+
+        const proposalId = proposalInfo.proposalId;
+        const proposalState = await daoContract.state(proposalId);
+        const { againstVotes, forVotes, abstainVotes } = await daoContract.proposalVotes(proposalId);
+        const deadline = await daoContract.proposalDeadline(proposalId);
+        const threshold = await daoContract.proposalThreshold();
+
+        const states = ['Pending', 'Active', 'Canceled', 'Defeated', 'Succeeded', 'Queued', 'Expired', 'Executed'];
 
         return {
-            latest_proposal: proposalName,
-            proposal_status: status,
-            vote_count: voteCount.toString(),
-            transaction_count: txCount.toNumber(),
-            voting_results: `Pour: ${yesVotes}, Contre: ${noVotes}, Abstention: ${abstainVotes}`
+            proposal_id: proposalId,
+            description: proposalInfo.description,
+            status: states[Number(proposalState)],
+            deadline: deadline.toString(),
+            threshold: ethers.formatEther(threshold),
+            voting_results: {
+                for: ethers.formatEther(forVotes),
+                against: ethers.formatEther(againstVotes),
+                abstain: ethers.formatEther(abstainVotes)
+            },
+            updated_at: new Date().toISOString()
         };
     } catch (error) {
         console.error('Error fetching DAO state:', error);
         // En cas d'erreur, retourner l'état actuel du fichier
-        const currentContent = await fs.readFile(DAO_STATE_PATH, 'utf-8');
-        return JSON.parse(currentContent);
+        try {
+            const currentContent = await fs.readFile(DAO_STATE_PATH, 'utf-8');
+            return JSON.parse(currentContent);
+        } catch (readError) {
+            return {
+                error: 'Unable to fetch DAO state',
+                timestamp: new Date().toISOString()
+            };
+        }
     }
 }
 
