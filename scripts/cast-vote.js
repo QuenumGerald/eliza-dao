@@ -5,13 +5,26 @@ const { getProposalId, setProposalId } = require("./current-proposal");
 // Récupérer l'ID de la proposition depuis les arguments
 const proposalIdArg = process.argv[2];
 
+const GOVERNOR_ABI = [
+    "function state(uint256 proposalId) public view returns (uint8)",
+    "function castVote(uint256 proposalId, uint8 support) external returns (uint256)",
+    "function proposalVotes(uint256 proposalId) external view returns (uint256 againstVotes, uint256 forVotes, uint256 abstainVotes)",
+    "function proposalDeadline(uint256 proposalId) external view returns (uint256)"
+];
+
+const TOKEN_ABI = [
+    "function balanceOf(address account) external view returns (uint256)",
+    "function getVotes(address account) external view returns (uint256)",
+    "function delegate(address delegatee) external"
+];
+
 async function main() {
-    const [deployer] = await ethers.getSigners();
+    const [deployer] = await hre.ethers.getSigners();
     console.log("Casting vote with account:", deployer.address);
 
     // Récupérer l'instance du Governor
-    const governor = await ethers.getContractAt("ElizaGovernor", GOVERNOR_ADDRESS);
-    const token = await ethers.getContractAt("ElizaToken", TOKEN_ADDRESS);
+    const governor = new hre.ethers.Contract(GOVERNOR_ADDRESS, GOVERNOR_ABI, deployer);
+    const token = new hre.ethers.Contract(TOKEN_ADDRESS, TOKEN_ABI, deployer);
 
     // Utiliser l'ID fourni en argument ou celui du fichier
     let proposalId;
@@ -40,13 +53,13 @@ async function main() {
         // Afficher le nombre de votes
         const { againstVotes, forVotes, abstainVotes } = await governor.proposalVotes(proposalId);
         console.log("\nCurrent votes:");
-        console.log("For:", ethers.formatEther(forVotes));
-        console.log("Against:", ethers.formatEther(againstVotes));
-        console.log("Abstain:", ethers.formatEther(abstainVotes));
+        console.log("For:", hre.ethers.formatEther(forVotes));
+        console.log("Against:", hre.ethers.formatEther(againstVotes));
+        console.log("Abstain:", hre.ethers.formatEther(abstainVotes));
 
         // Afficher les délais
         const deadline = await governor.proposalDeadline(proposalId);
-        const currentBlock = await ethers.provider.getBlockNumber();
+        const currentBlock = await hre.ethers.provider.getBlockNumber();
         console.log("\nVoting period:");
         console.log("Current block:", currentBlock);
         console.log("Deadline block:", Number(deadline));

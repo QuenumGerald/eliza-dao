@@ -2,7 +2,8 @@ require("@nomicfoundation/hardhat-toolbox");
 require("@nomicfoundation/hardhat-verify");
 require("dotenv").config();
 
-const PRIVATE_KEY = process.env.PRIVATE_KEY || "0000000000000000000000000000000000000000000000000000000000000000";
+// Remove 0x prefix if present
+const PRIVATE_KEY = process.env.ADMIN_PRIVATE_KEY?.replace('0x', '') || "0000000000000000000000000000000000000000000000000000000000000000";
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || "";
 const ARBISCAN_API_KEY = process.env.ARBISCAN_API_KEY || "";
 
